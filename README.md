@@ -1,14 +1,20 @@
+# Purpose
+
+Key for this fork is to allow the startup with customized users and groups created once startup.
+It is forked from [GitHub](https://github.com/openmicroscopy/apacheds-docker)
+
 # ApacheDS
 
 This Docker image provides an [ApacheDS](https://directory.apache.org/apacheds/) LDAP server. Optionally it could be used to provide a [Kerberos server](https://directory.apache.org/apacheds/advanced-ug/2.1-config-description.html#kerberos-server) as well.
 
-The project sources can be found on [GitHub](https://github.com/openmicroscopy/apacheds-docker). The Docker image on [Docker Hub](https://registry.hub.docker.com/u/openmicroscopy/apacheds/).
+The project sources can be found on [GitHub](https://github.com/jonnynch/apacheds-docker). The Docker image on [Docker Hub](https://registry.hub.docker.com/u/jonnynch/apacheds/).
 
 
 ## Build
 
-    git clone https://github.com/openmicroscopy/apacheds-docker.git
-    docker build -t openmicroscopy/apacheds:2.0.0.AM26 apacheds-docker
+    git clone https://github.com/jonnynch/apacheds-docker.git
+    cd apacheds-docker
+    docker build -t jonnynch/apacheds:2.0.0.AM26 .
 
 
 ## Installation
@@ -17,7 +23,7 @@ The folder */var/lib/apacheds* contains the runtime data and thus has been defin
 
 The container can be started issuing the following command:
 
-    docker run --name ldap -d -p 389:10389 openmicroscopy/apacheds
+    docker run --name ldap -d -p 389:10389 jonnynch/apacheds
 
 
 ## Usage
@@ -64,3 +70,12 @@ In the provided sample configuration, the instance is named *default*. Assuming 
 It would be possible to use this ApacheDS image to provide a [Kerberos server](https://directory.apache.org/apacheds/advanced-ug/2.1-config-description.html#kerberos-server) as well. Just provide your own *config.ldif* file for that. Don't forget to expose the right port, then.
 
 Also other services are possible. For further information read the [configuration documentation](https://directory.apache.org/apacheds/advanced-ug/2.1-config-description.html).
+
+### Custom Apache DS Entries
+```
+docker run --name ldap -d -p 389:10389 \
+-e APACHEDS_INSTANCE=custom \
+-v ~/sample/entries.ldif:/bootstrap/entries.ldif \
+-v ~/sample/init.sh:/bootstrap/init.sh \
+jonnynch/apacheds:2.0.0.AM26
+```

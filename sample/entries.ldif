@@ -1,0 +1,135 @@
+#########################################################
+# MICROSOFT SCHEMA for sAMAccountName and memberOf
+# these two attributes are not defined in Apache Directory Server
+#########################################################
+dn: cn=microsoft, ou=schema
+objectclass: metaSchema
+objectclass: top
+cn: microsoft
+
+dn: ou=attributetypes, cn=microsoft, ou=schema
+objectclass: organizationalUnit
+objectclass: top
+ou: attributetypes
+
+dn: m-oid=1.2.840.113556.1.4.221, ou=attributetypes, cn=microsoft, ou=schema
+objectclass: metaAttributeType
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.4.221
+m-name: sAMAccountName
+m-equality: caseIgnoreMatch
+m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+m-singleValue: TRUE
+
+dn: m-oid=1.2.840.113556.1.4.222, ou=attributetypes, cn=microsoft, ou=schema
+objectclass: metaAttributeType
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.4.222
+m-name: memberOf
+m-equality: caseIgnoreMatch
+m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+m-singleValue: FALSE
+
+dn: m-oid=1.2.840.113556.1.4.223, ou=attributetypes, cn=microsoft, ou=schema
+objectclass: metaAttributeType
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.4.223
+m-name: objectCategory
+m-equality: caseIgnoreMatch
+m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+m-singleValue: TRUE
+
+dn: ou=objectclasses, cn=microsoft, ou=schema
+objectclass: organizationalUnit
+objectclass: top
+ou: objectClasses
+
+dn: m-oid=1.2.840.113556.1.5.6, ou=objectclasses, cn=microsoft, ou=schema
+objectclass: metaObjectClass
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.5.6
+m-name: simulatedMicrosoftSecurityPrincipal
+m-supObjectClass: top
+m-typeObjectClass: AUXILIARY
+m-must: sAMAccountName
+m-may: memberOf
+m-must: objectCategory
+
+############
+# Domain
+############
+
+dn: ou=users,dc=openmicroscopy,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: users
+
+dn: ou=roles,dc=openmicroscopy,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: roles
+
+# Create Groups
+dn: cn=admin,ou=roles,dc=openmicroscopy,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member: uid=user1,ou=users,dc=openmicroscopy,dc=org
+
+# Create Groups
+dn: cn=developer,ou=roles,dc=openmicroscopy,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: developer
+member: uid=user2,ou=users,dc=openmicroscopy,dc=org
+
+# Create Groups
+dn: cn=viewer,ou=roles,dc=openmicroscopy,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: viewer
+member: uid=user3,ou=users,dc=openmicroscopy,dc=org
+
+# Create People
+dn: uid=user1,ou=users,dc=openmicroscopy,dc=org
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
+objectCategory: User
+cn: User 1 CN
+sn: User 1 SN
+uid: user1
+sAMAccountName: user1
+userPassword: user1
+memberOf: cn=admin,ou=roles,dc=openmicroscopy,dc=org
+
+dn: uid=user2,ou=users,dc=openmicroscopy,dc=org
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
+objectCategory: User
+cn: User 2 CN
+sn: User 2 SN
+uid: user2
+sAMAccountName: user2
+userPassword: user2
+memberOf: cn=developer,ou=roles,dc=openmicroscopy,dc=org
+
+dn: uid=user3,ou=users,dc=openmicroscopy,dc=org
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
+objectCategory: User
+cn: User 3 CN
+sn: User 3 SN
+uid: user3
+sAMAccountName: user3
+userPassword: user3
+memberOf: cn=viewer,ou=roles,dc=openmicroscopy,dc=org

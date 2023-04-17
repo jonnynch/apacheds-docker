@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER ome-devel@lists.openmicroscopy.org.uk
+
 
 #############################################
 # ApacheDS installation

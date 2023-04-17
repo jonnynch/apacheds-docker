@@ -38,4 +38,8 @@ shutdown(){
 }
 
 trap shutdown INT TERM
+if [ -f ${APACHEDS_INSTANCE_DIRECTORY}/init.sh ]; then
+    ${APACHEDS_INSTANCE_DIRECTORY}/init.sh >> ${APACHEDS_INSTANCE_DIRECTORY}/init.log
+fi
+
 tail -n 0 --pid=$(cat $PIDFILE) -f ${APACHEDS_INSTANCE_DIRECTORY}/log/apacheds.log
